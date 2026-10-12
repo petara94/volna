@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux · numerical core
+            os: ubuntu-24.04
+            features: --no-default-features
+          - name: macOS · native application
+            os: macos-14
+            features: ''
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      RUSTUP_TOOLCHAIN: 1.96.1
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust on CI runner
+        run: rustup toolchain install 1.96.1 --profile minimal --component rustfmt --component clippy
+      - name: Cache dependencies and build outputs
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-${{ runner.arch }}-rust-1.96.1-${{ hashFiles('Cargo.lock') }}
+      - name: Formatting
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets --locked ${{ matrix.features }} -- -D warnings
+      - name: Tests · debug
+        run: cargo test --workspace --locked ${{ matrix.features }}
+      - name: Tests · release
+        run: cargo test --workspace --release --locked ${{ matrix.features }}
+      - name: Release executable
+        if: runner.os == 'macOS'
+        run: cargo build --release --locked

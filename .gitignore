@@ -1,0 +1,10 @@
+/target/
+/results/
+/dist/
+/.claude/
+/.idea/
+/.env
+/.env.*
+/probes.csv
+/scene.json
+.DS_Store
