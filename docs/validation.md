@@ -27,7 +27,7 @@ CLI проверен на обычных аргументах, `--help`, неи�
 
 ### Что не заявляется
 
-Не выполнялись Miri, sanitizers, fuzzing, измерение покрытия, длительные параметрические исследования, native GUI-проверки на Linux/Windows, Apple notarization и экспериментальная валидация. CI-конфигурация проверяет Linux core и macOS application; фактические удалённые результаты находятся в [GitHub Actions](https://github.com/petara94/volna/actions/workflows/ci.yml), а не выводятся из локального успеха.
+Не выполнялись Miri, sanitizers, fuzzing, измерение покрытия, длительные параметрические исследования, native GUI-проверки на Linux/Windows, Apple notarization и экспериментальная валидация. Текущая CI-конфигурация проверяет Linux core и macOS application, а отдельные jobs собирают release-приложение на Linux (`ubuntu-24.04`) и Windows (`windows-2022`) и проверяют `--help` без открытия окна. Эти jobs не запускают полный набор тестов или native GUI-проверки на Linux/Windows; фактические удалённые результаты находятся в [GitHub Actions](https://github.com/petara94/volna/actions/workflows/ci.yml), а не выводятся из локального успеха.
 
 ## История численных проверок
 
