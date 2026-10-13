@@ -1,6 +1,6 @@
 # История изменений
 
-## Unreleased
+## 0.1.1 — предварительные сборки Linux и Windows
 
 ### 2026-10-14 — Сборки Linux и Windows — `ci/linux-windows-build`
 
