@@ -53,9 +53,11 @@ cargo run --release --locked -- --help
 
 ### Готовая сборка
 
-В [Releases](https://github.com/petara94/volna/releases) доступна предварительная сборка для **macOS / Apple Silicon** с примерами сцен. Распакуйте архив и из его каталога запустите `./volna`.
+В [Releases](https://github.com/petara94/volna/releases) доступны предварительные сборки с примерами сцен: **Linux / x86_64** и **Windows / x86_64** в `v0.1.1`, **macOS / Apple Silicon** в `v0.1.0`. Распакуйте архив и из его каталога запустите `./volna` на Linux/macOS или `.\volna.exe` на Windows. Контрольные суммы архивов приведены в `SHA256SUMS` соответствующего релиза.
 
 Сборка не нотарифицирована Apple. Если политика macOS запрещает запуск скачанного исполняемого файла, предпочтительный вариант — собрать приложение из исходников. Нативная работа проверялась на macOS 15.6; это не заявление о проверке всех ОС и GPU.
+
+Для **Linux / x86_64** и **Windows / x86_64** CI настроен на release-сборку приложения. После успешного выполнения соответствующего job в [GitHub Actions](https://github.com/petara94/volna/actions/workflows/ci.yml) доступны artifacts `volna-linux-x86_64` и `volna-windows-x86_64`. Linux artifact содержит `volna-linux-x86_64.tar.gz` с сохранённым правом исполнения; Windows artifact — `volna.exe`. Эти сборки не публикуются автоматически в Releases.
 
 ## Готовые сцены
 
@@ -100,7 +102,7 @@ cargo test --workspace --release --locked
 cargo test --workspace --no-default-features --locked
 ```
 
-CI проверяет численное ядро на Linux и сборку приложения на macOS. Его фактический статус показан в badge вверху. Более дорогие приёмочные опыты помечены `ignored` и запускаются отдельно; обычные тесты не выдают их за выполненные.
+CI проверяет численное ядро на Linux и приложение на macOS; отдельные jobs собирают release-приложение на Linux и Windows и проверяют `--help` без открытия окна. Его фактический статус показан в badge вверху. Более дорогие приёмочные опыты помечены `ignored` и запускаются отдельно; обычные тесты не выдают их за выполненные.
 
 ```text
 src/model/     Сцена, геометрия и валидация входов
